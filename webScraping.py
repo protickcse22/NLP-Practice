@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from bs4 import BeautifulSoup
+import csv
 from urllib.request import urlopen
 
-link = 'https://www.bd24live.com/bangla/'
+res = urlopen('https://www.priyo.com/')
+sope = BeautifulSoup(res, 'lxml')
+var = sope.find_all('a')
+print(type(var))
+print(len(var))
+for link in sope.find_all('a'):
+    print(link.text)
 
-res = urlopen(link)
-page_html = res.read()
-res.close()
-soap = BeautifulSoup(page_html, 'html.parser')
-
-with open('bd24live.csv', 'w', encoding='utf-8') as f:
-    f.write('Link' + '\n')
-    for link in soap.find_all('a'):
-        link_data = ''.join(str(link).split(','))
-        f.write(link_data + '\n')
-f.close()
+with open('priyo.csv', 'w', encoding='utf-8') as csv_file:
+    csv_file.write("Link" + "\n")
+    for link in sope.find_all('a'):
+        csv_file.write(''.join(link.text.split(',')) + "\n")
